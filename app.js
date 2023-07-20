@@ -28,19 +28,18 @@ app.use(
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
-    graphiql: true
+    graphiql: true,
   })
 );
 
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${
-      process.env.MONGO_PASSWORD
-    }@cluster0-ntrwp.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`
+    `mongodb+srv://tutorial:80n2RtabPrfcAZGG@tutorialtesting.cykhvmc.mongodb.net/?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
     app.listen(8000);
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });
