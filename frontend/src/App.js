@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 import AuthPage from './pages/Auth';
@@ -9,7 +9,7 @@ import AuthContext from './context/auth-context';
 
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
   state = {
     token: null,
     userId: null
