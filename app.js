@@ -23,6 +23,10 @@ app.use((req, res, next) => {
 
 app.use(isAuth);
 
+app.get('/', (req, res)=>{
+  res.status(200).sendFile(path.resolve(__dirname, './frontend/public/index.html'))
+})
+
 app.use(
   '/graphql',
   graphqlHttp({
@@ -34,8 +38,7 @@ app.use(
 
 mongoose
   .connect(
-    `mongodb+srv://tutorial:80n2RtabPrfcAZGG@tutorialtesting.cykhvmc.mongodb.net/?retryWrites=true&w=majority`,
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    'mongodb+srv://xjqiu28:assessmentPassword@assessment.rhrimen.mongodb.net/',{useNewUrlParser: true , useUnifiedTopology: true}
   )
   .then(() => {
     app.listen(8000);
