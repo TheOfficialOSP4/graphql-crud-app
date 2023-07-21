@@ -5,7 +5,7 @@ import AuthContext from '../context/auth-context';
 
 class AuthPage extends Component {
   state = {
-    isLogin: true
+    isLogin: true,
   };
 
   static contextType = AuthContext;
@@ -14,18 +14,20 @@ class AuthPage extends Component {
     super(props);
     this.emailEl = React.createRef();
     this.passwordEl = React.createRef();
+    this.roleEl = React.createRef();
   }
 
   switchModeHandler = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return { isLogin: !prevState.isLogin };
     });
   };
 
-  submitHandler = event => {
+  submitHandler = (event) => {
     event.preventDefault();
     const email = this.emailEl.current.value;
     const password = this.passwordEl.current.value;
+    const role = this.roleEl.current.value;
 
     if (email.trim().length === 0 || password.trim().length === 0) {
       return;
@@ -38,29 +40,32 @@ class AuthPage extends Component {
             userId
             token
             tokenExpiration
+            role
           }
         }
       `,
       variables: {
         email: email,
-        password: password
-      }
+        password: password,
+      },
     };
 
     if (!this.state.isLogin) {
       requestBody = {
         query: `
-          mutation CreateUser($email: String!, $password: String!) {
-            createUser(userInput: {email: $email, password: $password}) {
+          mutation CreateUser($email: String!, $password: String!, $role: String!) {
+            createUser(userInput: {email: $email, password: $password, role: $role}) {
               _id
               email
+              role
             }
           }
         `,
         variables: {
           email: email,
-          password: password
-        }
+          password: password,
+          role: role,
+        },
       };
     }
 
@@ -68,25 +73,26 @@ class AuthPage extends Component {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
-      .then(res => {
+      .then((res) => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Failed!');
         }
         return res.json();
       })
-      .then(resData => {
+      .then((resData) => {
         if (resData.data.login.token) {
           this.context.login(
             resData.data.login.token,
             resData.data.login.userId,
-            resData.data.login.tokenExpiration
+            resData.data.login.tokenExpiration,
+            resData.data.login.role
           );
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -102,6 +108,14 @@ class AuthPage extends Component {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" ref={this.passwordEl} />
         </div>
+        {this.state.isLogin ? (
+          <></>
+        ) : (
+          <div className="form-control">
+            <label htmlFor="role">Role</label>
+            <input type="role" id="role" ref={this.roleEl} />
+          </div>
+        )}
         <div className="form-actions">
           <button type="submit">Submit</button>
           <button type="button" onClick={this.switchModeHandler}>

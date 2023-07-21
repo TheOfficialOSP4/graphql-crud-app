@@ -24,5 +24,9 @@ module.exports = (req, res, next) => {
   }
   req.isAuth = true;
   req.userId = decodedToken.userId;
+  // for GraphQLock
+  res.locals.username = decodedToken.email;
+  res.locals.role = decodedToken.role;
+
   next();
 };

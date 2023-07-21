@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
+// const graphqlock = require('graphqlock');
 const mongoose = require('mongoose');
 
 const graphQlSchema = require('./graphql/schema/index');
@@ -28,7 +29,8 @@ app.get('/', (req, res)=>{
 })
 
 app.use(
-  '/graphql',
+  '/graphql', 
+  // graphqlock.loginLink, 
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,

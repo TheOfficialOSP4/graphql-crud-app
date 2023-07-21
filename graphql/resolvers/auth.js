@@ -14,7 +14,8 @@ module.exports = {
 
       const user = new User({
         email: args.userInput.email,
-        password: hashedPassword
+        password: hashedPassword,
+        role: args.userInput.role
       });
 
       const result = await user.save();
@@ -25,7 +26,7 @@ module.exports = {
     }
   },
   login: async ({ email, password }) => {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (!user) {
       throw new Error('User does not exist!');
     }
@@ -34,12 +35,12 @@ module.exports = {
       throw new Error('Password is incorrect!');
     }
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, email: user.email, role: user.role },
       'somesupersecretkey',
       {
         expiresIn: '1h'
       }
     );
-    return { userId: user.id, token: token, tokenExpiration: 1 };
+    return { userId: user.id, token: token, tokenExpiration: 1, role: user.role };
   }
 };
