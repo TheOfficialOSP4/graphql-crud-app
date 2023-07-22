@@ -18,16 +18,24 @@ class AuthPage extends Component {
   }
 
   switchModeHandler = () => {
+    console.log('previous state: ', this.state);
     this.setState((prevState) => {
       return { isLogin: !prevState.isLogin };
     });
   };
-
+  
   submitHandler = (event) => {
     event.preventDefault();
     const email = this.emailEl.current.value;
     const password = this.passwordEl.current.value;
-    const role = this.roleEl.current.value;
+    console.log('---submitHandler console.logs incoming-----')
+    // console.log(this.roleEl);
+    // console.log(this.roleEl.current);
+    // console.log(this.roleEl.current.value);
+    // let role;
+    // if (!this.state.isLogin) {
+    //   role = this.roleEl.current.value;
+    // }
 
     if (email.trim().length === 0 || password.trim().length === 0) {
       return;
@@ -51,6 +59,7 @@ class AuthPage extends Component {
     };
 
     if (!this.state.isLogin) {
+      const role = this.roleEl.current.value;
       requestBody = {
         query: `
           mutation CreateUser($email: String!, $password: String!, $role: String!) {
@@ -77,13 +86,15 @@ class AuthPage extends Component {
       },
     })
       .then((res) => {
+        console.log('Inside the first then statement Printing Res:', res);
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Failed!');
         }
         return res.json();
       })
       .then((resData) => {
-        if (resData.data.login.token) {
+        console.log(resData);
+        if (resData.data.login && resData.data.login.token) {
           this.context.login(
             resData.data.login.token,
             resData.data.login.userId,
