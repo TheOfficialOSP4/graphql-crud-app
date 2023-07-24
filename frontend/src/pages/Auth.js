@@ -28,7 +28,7 @@ class AuthPage extends Component {
     event.preventDefault();
     const email = this.emailEl.current.value;
     const password = this.passwordEl.current.value;
-    console.log('---submitHandler console.logs incoming-----')
+    // console.log('---submitHandler console.logs incoming-----')
     // console.log(this.roleEl);
     // console.log(this.roleEl.current);
     // console.log(this.roleEl.current.value);
@@ -83,6 +83,10 @@ class AuthPage extends Component {
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
+        // Authorization: 'Bearer ' + this.context.token,
+        // 'Access-Control-Allow-Origin': '*',
+        // 'Access-Control-Allow-Methods': 'POST,GET,OPTIONS',
+        // 'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       },
     })
       .then((res) => {
