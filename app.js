@@ -1,3 +1,6 @@
+// import express, bodyParser
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
@@ -9,6 +12,18 @@ const graphQlResolvers = require('./graphql/resolvers/index');
 const isAuth = require('./middleware/is-auth');
 
 const app = express();
+
+mongoose
+  .connect(
+    process.env.MONGO_URI,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => {
+    app.listen(8000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.use(bodyParser.json());
 
@@ -22,17 +37,15 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.use(isAuth);
+// app.get('/', (req, res) => {
+//   res
+//     .status(200)
+//     .sendFile(path.resolve(__dirname, './frontend/public/index.html'));
+// });
 
-app.get('/', (req, res) => {
-  res
-    .status(200)
-    .sendFile(path.resolve(__dirname, './frontend/public/index.html'));
-});
-
-app.use(
-  '/graphql',
-  // graphqlock.loginLink,
+app.post(
+  '/auth',
+  // isAuth,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
@@ -40,18 +53,20 @@ app.use(
   })
 );
 
+app.use(
+  '/graphql',
+  isAuth,
+  // graphqlock.loginLink,
+  graphqlHttp({
+    schema: graphQlSchema,
+    rootValue: graphQlResolvers,
+    graphiql: true,
+  }),
+  (req, res) => {
+    return res.status(200);
+  }
+);
+
 // app.post('/graphql', isAuth, (req, res) => {
 //   res.status(200).json(res.locals.role);
 // });
-
-mongoose
-  .connect(
-    'mongodb+srv://xjqiu28:assessmentPassword@assessment.rhrimen.mongodb.net/', 
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
-  .then(() => {
-    app.listen(8000);
-  })
-  .catch(err => {
-    console.log(err);
-  });

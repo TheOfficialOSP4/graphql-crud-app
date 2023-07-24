@@ -33,6 +33,7 @@ module.exports = (req, res, next) => {
   console.log("---success! you've entered the last step!---");
   req.isAuth = true;
   console.log('req.isAuth if it works: ', req.isAuth);
+  // question: why is this on req.userId?
   req.userId = decodedToken.userId;
   // for GraphQLock
   res.locals.username = decodedToken.email;

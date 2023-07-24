@@ -74,14 +74,14 @@ class EventsPage extends Component {
     };
 
     const token = this.context.token;
-
+    console.log('events line 77 token: ', token);
 
     fetch('http://localhost:8000/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token
+        'Authorization': 'Bearer ' + token
       }
     })
       .then(res => {
