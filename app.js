@@ -1,11 +1,13 @@
 // import express, bodyParser
-require('dotenv').config();
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const graphqlock = require('graphqlock');
 const mongoose = require('mongoose');
+
+const dotenv = require('dotenv');
+// dotenv.load_dotenv();
+dotenv.config();
 
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
@@ -13,11 +15,13 @@ const isAuth = require('./middleware/is-auth');
 
 const app = express();
 
+console.log(process.env.MONGO_URI, 'at line 20');
+
 mongoose
-  .connect(
-    process.env.MONGO_URI,
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     app.listen(8000);
   })
@@ -53,7 +57,8 @@ app.post(
   })
 );
 
-app.use(
+// graphql endpoint handler, handles all requests made to our graphQL interface that connects to our database
+app.post(
   '/graphql',
   isAuth,
   // graphqlock.loginLink,
@@ -67,6 +72,19 @@ app.use(
   }
 );
 
-// app.post('/graphql', isAuth, (req, res) => {
-//   res.status(200).json(res.locals.role);
-// });
+// Page not found error handler for all routes that does not exist!
+app.use('*', (req, res) => {
+  return res.status(404).send('Page not found');
+});
+
+// Global error handler creates a default error object with a specified log, status of 500, and error message
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 500,
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
+});
