@@ -1,19 +1,24 @@
-// import express, bodyParser
+// import express, bodyParser, graphqlHttp, graphqlock, and mongoose
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const graphqlock = require('graphqlock');
 const mongoose = require('mongoose');
 
+// import and initialize .env functionality
 const dotenv = require('dotenv');
 dotenv.config();
 
+// import graphQL schema and resolvers
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
+
+// import isAuth controller that handles all user authentication
 const isAuth = require('./middleware/is-auth');
 
 const app = express();
 
+// connect to MongoDB database
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -26,8 +31,10 @@ mongoose
     console.log(err);
   });
 
+// parsing input text to the server
 app.use(bodyParser.json());
 
+// setting headers to avoid CORS errors
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
@@ -44,9 +51,13 @@ app.use((req, res, next) => {
 //     .sendFile(path.resolve(__dirname, './frontend/public/index.html'));
 // });
 
+// auth endpoint for login and signup requests
+//post req w/ query/mutation is sent to graphqlauth resolver?
 app.post(
   '/auth',
   // isAuth,
+  // verifyLogin
+  // 
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
@@ -57,7 +68,7 @@ app.post(
 // graphql endpoint handler, handles all requests made to our graphQL interface that connects to our database
 app.post(
   '/graphql',
-  isAuth,
+  isAuth, //checks for a valid session and sets user id and role onto res.locals
   // graphqlock.loginLink,
   graphqlHttp({
     schema: graphQlSchema,
