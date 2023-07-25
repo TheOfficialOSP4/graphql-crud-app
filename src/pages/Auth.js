@@ -77,7 +77,7 @@ class AuthPage extends Component {
         },
       };
     }
-
+    // send fetch request to auth endpoint 
     fetch('http://localhost:8000/auth', {
       method: 'POST',
       body: JSON.stringify(requestBody),
