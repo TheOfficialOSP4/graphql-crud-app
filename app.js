@@ -57,18 +57,24 @@ app.post(
   '/auth',
   // isAuth,
   // verifyLogin
+  // graphqlock.loginLink,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
     graphiql: true,
   })
+  // (req,res) => console.log('after graphqLock')
 );
 
 // graphql endpoint handler, handles all requests made to our graphQL interface that connects to our database
 app.post(
   '/graphql',
-  isAuth, //checks for a valid session and sets user id and role onto res.locals
-  graphqlock.loginLink,
+  isAuth, //checks for a valid session, decodes the token, sets username and role onto res.locals
+  (req, res, next) => {
+    console.log(res.locals);
+    return next();
+  },
+  // graphqlock.loginLink,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
@@ -82,13 +88,13 @@ app.use('*', (req, res) => {
 });
 
 // Global error handler creates a default error object with a specified log, status of 500, and error message
-app.use((err, req, res, next) => {
-  const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
-    status: 500,
-    message: { err: 'An error occurred' },
-  };
-  const errorObj = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
-  return res.status(errorObj.status).json(errorObj.message);
-});
+// app.use((err, req, res, next) => {
+//   const defaultErr = {
+//     log: 'Express error handler caught unknown middleware error',
+//     status: 500,
+//     message: { err: 'An error occurred' },
+//   };
+//   const errorObj = Object.assign({}, defaultErr, err);
+//   console.log(errorObj.log);
+//   return res.status(errorObj.status).json(errorObj.message);
+// });
