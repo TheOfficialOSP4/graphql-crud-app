@@ -135,11 +135,16 @@ class EventsPage extends Component {
         `
     };
 
+
+    const token = this.context.token;
+    console.log('events line 140 token: ', token);
+
     fetch('http://localhost:8000/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
       }
     })
       .then(res => {
@@ -195,7 +200,7 @@ class EventsPage extends Component {
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.context.token
+        'Authorization': 'Bearer ' + this.context.token
       }
     })
       .then(res => {
