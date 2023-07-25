@@ -1,0 +1,39 @@
+// saving edits made to the GraphQLock loginLink file our debugging purposes
+// Sets the cookie on login that we will use for validation
+const { Users } =  require('./models');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+//Middleware for login
+function loginLink (req, res, next) {
+  //User must set res.locals
+  const role = res.locals.role;
+  console.log('----role in loginLink line 10---- ', role);
+  const user = res.locals.username;
+  console.log('----username in loginLink line 12---- ', user);
+  
+  const accessToken = jwt.sign({role}, process.env[`ACCESS_TOKEN_${role.toUpperCase()}_SECRET`], {expiresIn: '15m'});
+  const refreshToken = jwt.sign({user, role}, process.env.REFRESH_TOKEN_SECRET);
+  const hashedToken = bcrypt.hashSync(refreshToken, 10);
+  //if user doent exist, create user in DB
+  Users.find({username: user}, (err, found) => {
+    if (err) console.log('Error in loginLink Users.find:', err);
+    if (!found[0]) {
+       Users.create({ username: user, refreshToken: hashedToken }, (nestedErr, success) => {
+        if (nestedErr) console.log('Error saving refreshToken to DB in loginLink:', nestedErr);
+        if (success) console.log('User created in DB');
+      });
+    }; 
+  });
+
+  // console.log('loginLink line 28 accessToken: ', accessToken);
+  res.cookie('accessToken', accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true });
+  res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true });
+
+  // Verifying that cookies are being set in response headers
+  console.log('loginLink line 37 cookies: ', res.getHeaders("set-cookie"));
+  // console.log('loginLink line 38 cookies: ', res.getHeaders("set-cookie")["set-cookie"][0]);
+  return next();
+}
+
+module.exports = { loginLink };
