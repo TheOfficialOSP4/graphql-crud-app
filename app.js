@@ -6,7 +6,6 @@ const graphqlock = require('graphqlock');
 const mongoose = require('mongoose');
 
 const dotenv = require('dotenv');
-// dotenv.load_dotenv();
 dotenv.config();
 
 const graphQlSchema = require('./graphql/schema/index');
@@ -14,8 +13,6 @@ const graphQlResolvers = require('./graphql/resolvers/index');
 const isAuth = require('./middleware/is-auth');
 
 const app = express();
-
-console.log(process.env.MONGO_URI, 'at line 20');
 
 mongoose
   .connect(process.env.MONGO_URI, {
