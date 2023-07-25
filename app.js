@@ -1,6 +1,7 @@
 // import express, bodyParser, graphqlHttp, graphqlock, and mongoose
 const express = require('express');
-const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+// const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const graphqlock = require('graphqlock');
 const mongoose = require('mongoose');
@@ -32,7 +33,10 @@ mongoose
   });
 
 // parsing input text to the server
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(cookieParser());
 
 // setting headers to avoid CORS errors
 app.use((req, res, next) => {
@@ -70,11 +74,13 @@ app.post(
 app.post(
   '/graphql',
   isAuth, //checks for a valid session, decodes the token, sets username and role onto res.locals
-  (req, res, next) => {
-    console.log(res.locals);
-    return next();
-  },
-  // graphqlock.loginLink,
+  // (req, res, next) => {
+  //   console.log(res.locals);
+  //   console.log(res.locals.role);
+  //   console.log(res.locals.username);
+  //   return next();
+  // },
+  graphqlock.loginLink,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
