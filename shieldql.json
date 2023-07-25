@@ -1,0 +1,14 @@
+{
+    "superadmin": {
+      "query": ["."],
+      "mutation": ["."]
+    },
+    "admin": {
+      "query": ["."],
+      "mutation": ["."]
+    },
+    "non-admin": {
+      "query": ["."]
+    }
+  }
+  

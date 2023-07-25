@@ -3,7 +3,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 // const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
-const graphqlock = require('graphqlock');
+// const graphqlock = require('graphqlock');
+const shieldql = require('shieldql');
 const mongoose = require('mongoose');
 
 // import and initialize .env functionality
@@ -81,7 +82,8 @@ app.post(
   //   console.log(res.locals.username);
   //   return next();
   // },
-  graphqlock.loginLink,
+  // graphqlock.loginLink,
+  shieldql.loginLink,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
