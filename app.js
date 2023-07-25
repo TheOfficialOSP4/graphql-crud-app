@@ -57,7 +57,6 @@ app.post(
   '/auth',
   // isAuth,
   // verifyLogin
-  // 
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
@@ -69,15 +68,12 @@ app.post(
 app.post(
   '/graphql',
   isAuth, //checks for a valid session and sets user id and role onto res.locals
-  // graphqlock.loginLink,
+  graphqlock.loginLink,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
     graphiql: true,
-  }),
-  (req, res) => {
-    return res.status(200);
-  }
+  })
 );
 
 // Page not found error handler for all routes that does not exist!
