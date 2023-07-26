@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 //structure of jwt:
+const { loginLink } = require('./loginLink');
 
 //header includes hashing algo
 //payload
@@ -15,11 +16,11 @@ const validateUser = (req, res, next) => {
   const accessToken = req.cookies.accessToken;
 
   //decode the cookie to determine what the payload role is 
-  const obj = jwt.decode(accessToken);
+  // const obj = jwt.decode(accessToken);
 
   //NOTE: double check that obj.role accesses the role. consider logging the obj
 
-  const secret = process.env[`ACCESS_TOKEN_${obj.role.toUpperCase()}_SECRET`];
+  const secret = process.env[`ACCESS_TOKEN_${res.locals.role.toUpperCase()}_SECRET`];
 
   //verify token using decoded role. if verification fails, send error
   // result payload comes back as an object with roles and username as keys 
@@ -31,9 +32,8 @@ const validateUser = (req, res, next) => {
       //work with verified decoded payload
       let query = req.body.query;
       query = query.split(" ");
-      
       //if the query was a mutation, throw an error 
-      if (decoded.role !== 'Admin' && query[0] === "mutation") {
+      if (decoded !== 'Admin' && query[0] === "mutation") {
         throw Error("DO NOT HAVE PERMISSIONS TO MUTATE");
       }
       else return next()
@@ -46,4 +46,4 @@ const validateUser = (req, res, next) => {
 //not checking the actual customizable shieldql.json file
 //also - we are not triggering global error handler
 
-module.exports = { validateUser };
+module.exports = { validateUser, loginLink };
