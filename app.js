@@ -66,7 +66,7 @@ app.use(cors({
 //post req w/ query/mutation is sent to graphqlauth resolver?
 app.post(
   '/auth',
-  // isAuth,
+  isAuth,
   // verifyLogin
   // graphqlock.loginLink,
   graphqlHttp({
@@ -95,6 +95,7 @@ app.post(
     graphiql: true,
   })
 );
+
 
 // Page not found error handler for all routes that does not exist!
 app.use('*', (req, res) => {
