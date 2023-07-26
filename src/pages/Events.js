@@ -82,7 +82,8 @@ class EventsPage extends Component {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
-      }
+      },
+      credentials: 'include'
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
@@ -144,8 +145,9 @@ class EventsPage extends Component {
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      }
+        'Authorization': 'Bearer ' + token,
+      },
+      credentials: 'include'
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
@@ -201,7 +203,8 @@ class EventsPage extends Component {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.context.token
-      }
+      },
+      credentials: 'include'
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {

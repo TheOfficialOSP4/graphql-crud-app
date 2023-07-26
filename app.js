@@ -1,6 +1,7 @@
 // import express, bodyParser, graphqlHttp, graphqlock, and mongoose
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 // const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 // const graphqlock = require('graphqlock');
@@ -38,18 +39,22 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 // setting headers to avoid CORS errors
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-  return next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   if (req.method === 'OPTIONS') {
+//     return res.sendStatus(200);
+//   }
+//   return next();
+// });
 
 // app.get('/', (req, res) => {
 //   res
