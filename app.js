@@ -88,7 +88,9 @@ app.post(
   //   return next();
   // },
   // graphqlock.loginLink,
+  
   shieldql.loginLink,
+  shieldql.validateUser,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
