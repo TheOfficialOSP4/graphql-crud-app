@@ -23,7 +23,7 @@ class AuthPage extends Component {
       return { isLogin: !prevState.isLogin };
     });
   };
-  
+
   submitHandler = (event) => {
     event.preventDefault();
     const email = this.emailEl.current.value;
@@ -105,12 +105,19 @@ class AuthPage extends Component {
             resData.data.login.tokenExpiration,
             resData.data.login.role
           );
+          }
+          if (!this.state.isLogin){
+            this.createSuccess();
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  createSuccess = () => {
+    alert("Successfully created an account");
+  }
 
   render() {
     return (
@@ -124,12 +131,15 @@ class AuthPage extends Component {
           <input type="password" id="password" ref={this.passwordEl} />
         </div>
         {this.state.isLogin ? (
-          <></>
+          <>
+          </>
         ) : (
-          <div className="form-control">
-            <label htmlFor="role">Role</label>
-            <input type="role" id="role" ref={this.roleEl} />
-          </div>
+          <>
+            <div className="form-control">
+              <label htmlFor="role">Role</label>
+              <input type="role" id="role" ref={this.roleEl} />
+            </div>
+          </>
         )}
         <div className="form-actions">
           <button type="submit">Submit</button>
