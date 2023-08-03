@@ -1,14 +1,10 @@
 {
-    "superadmin": {
-      "query": ["."],
-      "mutation": ["."]
-    },
-    "admin": {
-      "query": ["."],
-      "mutation": ["."]
-    },
-    "non-admin": {
-      "query": ["."]
-    }
+  "Admin": {
+    "query": ["."],
+    "mutation": ["createEvent"]
+  },
+  "User": {
+    "query": ["events"], 
+    "mutation": ["createEvent"]
   }
-  
+}
