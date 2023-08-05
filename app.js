@@ -18,7 +18,7 @@ const graphQlResolvers = require('./graphql/resolvers/index');
 const isAuth = require('./middleware/is-auth');
 
 dotenv.config();
-shieldql.shieldqlConfig();
+shieldql.shieldqlConfig(true, 20, 20000);
 const app = express();
 
 // connect to MongoDB database
@@ -58,6 +58,10 @@ app.post(
 // graphql endpoint handler, handles all requests made to our graphQL interface that connects to our database
 app.post(
   '/graphql',
+  // (req, res, next) => {
+  //   console.log("app.js line 62: full query: ", req.body);
+  //   return next();
+  // },
   isAuth, //checks for a valid session, decodes the token, sets username and role onto res.locals
   shieldql.sanitizeQuery,
   shieldql.loginLink,
