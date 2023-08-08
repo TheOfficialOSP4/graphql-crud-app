@@ -1,10 +1,14 @@
 {
   "Admin": {
     "query": ["."],
-    "mutation": ["createEvent"]
+    "mutation": ["."]
   },
   "User": {
-    "query": ["events"], 
-    "mutation": ["createEvent"]
+    "query": ["."],
+    "mutation": ["."]
+  },
+  "contractor": {
+    "query": ["."],
+    "mutation": ["."]
   }
 }
