@@ -88,6 +88,7 @@ class AuthPage extends Component {
         // 'Access-Control-Allow-Methods': 'POST,GET,OPTIONS',
         // 'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       },
+      credentials: 'include'
     })
       .then((res) => {
         console.log('Inside the first then statement Printing Res:', res);
