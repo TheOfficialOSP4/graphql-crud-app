@@ -18,7 +18,7 @@ const graphQlResolvers = require('./graphql/resolvers/index');
 const isAuth = require('./middleware/is-auth');
 
 dotenv.config();
-shieldql.shieldqlConfig(true, 20, 20000);
+shieldql.shieldqlConfig(false, 20, 20000);
 const app = express();
 
 // connect to MongoDB database
@@ -46,8 +46,8 @@ app.use(cors({
 
 app.post(
   '/auth',
-  isAuth,
-  // shieldql.sanitizeQuery,
+  // isAuth,
+  shieldql.sanitizeQuery,
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
