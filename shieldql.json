@@ -4,10 +4,9 @@
     "mutation": ["."]
   },
   "User": {
-    "mutation": ["."]
+    "mutation": [""]
   },
   "contractor": {
-    "query": ["."],
-    "mutation": ["."]
+    "query": ["."]
   }
 }
