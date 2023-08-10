@@ -40,5 +40,6 @@ module.exports = (req, res, next) => {
   res.locals.role = decodedToken.role;
 
   console.log("at the end of isAuth, res.locals: ", res.locals)
+  console.log("This is res.locals in inAuth: ", res.locals);
   return next();
 };

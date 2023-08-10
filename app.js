@@ -46,12 +46,28 @@ app.use(cors({
 
 app.post(
   '/auth',
+  shieldql.sanitizeQuery,
+  (req, res, next) =>{
+    console.log("this one is successful after sanitize query" );
+    res.locals.role = "Admin";
+    return next();
+  },
+
   // isAuth,
+  (req, res, next) =>{
+    console.log("this one is successful after isAuth" );
+    return next();
+  },
   // (req, res, next) => {
   //   console.log("app.js line 51: full query: ", req.body);
   //   return next();
   // },
-  shieldql.sanitizeQuery,
+
+  shieldql.loginLink,
+  (req, res, next) =>{
+    console.log("this one is successful after loginlink" );
+    return next();
+  },
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
@@ -68,7 +84,7 @@ app.post(
   //   return next();
   // },
   isAuth,  // isAuth populates res.locals.role with the user's role
-  shieldql.loginLink,
+
   shieldql.validateUser,
   graphqlHttp({
     schema: graphQlSchema,

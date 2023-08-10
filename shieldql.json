@@ -1,7 +1,7 @@
 {
   "Admin": {
-    "query": ["."],
-    "mutation": ["."]
+    "query": ["."]
+
   },
   "User": {
     "mutation": [""]
