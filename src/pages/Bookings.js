@@ -43,8 +43,9 @@ class BookingsPage extends Component {
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.context.token
-      }
+        'Authorization': 'Bearer ' + this.context.token
+      },
+      credentials: 'include'
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
@@ -83,8 +84,9 @@ class BookingsPage extends Component {
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.context.token
-      }
+        'Authorization': 'Bearer ' + this.context.token
+      },
+      credentials: 'include'
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {

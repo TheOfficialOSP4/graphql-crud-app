@@ -1,0 +1,12 @@
+{
+  "Admin": {
+    "query": ["."],
+    "mutation": ["."]
+  },
+  "User": {
+    "mutation": [""]
+  },
+  "contractor": {
+    "query": ["."]
+  }
+}

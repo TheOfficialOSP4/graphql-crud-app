@@ -2,24 +2,44 @@
   "name": "graphql-react-event-booking",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./frontend/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "concurrently \"react-scripts start\" \"nodemon app.js\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "chart.js": "^1.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dataloader": "^1.4.0",
+    "dotenv": "^16.3.1",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
     "graphql": "^14.0.2",
+    "graphqlock": "^1.0.0",
     "jsonwebtoken": "^9.0.1",
-    "mongoose": "^5.3.15"
+    "mongoose": "^5.3.15",
+    "react": "^16.14.0",
+    "react-chartjs": "^1.2.0",
+    "react-dom": "^16.14.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^5.0.1",
+    "shieldql": "^0.0.12"
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "nodemon": "^3.0.1"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

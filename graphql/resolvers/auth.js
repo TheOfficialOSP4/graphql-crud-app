@@ -14,7 +14,8 @@ module.exports = {
 
       const user = new User({
         email: args.userInput.email,
-        password: hashedPassword
+        password: hashedPassword,
+        role: args.userInput.role
       });
 
       const result = await user.save();
@@ -24,22 +25,26 @@ module.exports = {
       throw err;
     }
   },
+  // init login resolver that attempts to find a user and if it does not find one, throw error that user does not exist
   login: async ({ email, password }) => {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (!user) {
       throw new Error('User does not exist!');
     }
+    //  check if password is a valid password
     const isEqual = await bcrypt.compare(password, user.password);
     if (!isEqual) {
       throw new Error('Password is incorrect!');
     }
+    // if login information is valid, create jwt with userID, email, and graphql role
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, email: user.email, role: user.role },
       'somesupersecretkey',
       {
         expiresIn: '1h'
       }
     );
-    return { userId: user.id, token: token, tokenExpiration: 1 };
+    // return object with token (new jwt), userID, token expiration, and role
+    return { token: token, userId: user.id, tokenExpiration: 1, role: user.role };
   }
 };

@@ -12,11 +12,12 @@ import './App.css';
 class App extends React.Component {
   state = {
     token: null,
-    userId: null
+    userId: null, 
+    role: null,
   };
 
-  login = (token, userId, tokenExpiration) => {
-    this.setState({ token: token, userId: userId });
+  login = (token, userId, tokenExpiration, role) => {
+    this.setState({ token, userId, role });
   };
 
   logout = () => {
