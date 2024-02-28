@@ -1,10 +1,11 @@
 {
   "Admin": {
-    "query": ["."]
-
+    "query": ["bookings"],
+    "mutation": ["."]
   },
   "User": {
-    "mutation": [""]
+    "query": ["bookings", "events"],
+    "mutation": ["createEvent"]
   },
   "contractor": {
     "query": ["."]

@@ -35,9 +35,8 @@ mongoose
   });
 
 // parsing input text to the server
-app.use(bodyParser.json());
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors({
   origin: 'http://localhost:3000',
@@ -52,22 +51,7 @@ app.post(
     res.locals.role = "Admin";
     return next();
   },
-
-  // isAuth,
-  (req, res, next) =>{
-    console.log("this one is successful after isAuth" );
-    return next();
-  },
-  // (req, res, next) => {
-  //   console.log("app.js line 51: full query: ", req.body);
-  //   return next();
-  // },
-
   shieldql.loginLink,
-  (req, res, next) =>{
-    console.log("this one is successful after loginlink" );
-    return next();
-  },
   graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
